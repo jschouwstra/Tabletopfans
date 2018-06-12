@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% import "macros.html.twig" as macro %}
+
+{% block content %}
+    <h1>New Game</h1>
+
+    <div class="col-md-4 col-md-offset-4">
+        {{ form_start(form) }}
+        <table class="table table-bordered">
+            <tr>
+                <td>
+                    Boardgamegeek ID <br>
+                    <a href="abc"><sub>How do I get the boardgamegeek ID?</sub></a>
+                </td>
+                <td>
+                    {{ form_widget(form.bgg_id) }}
+                </td>
+            </tr>
+
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            {{ macro.btnSubmit() }}
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}
+

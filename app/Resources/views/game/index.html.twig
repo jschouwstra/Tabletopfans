@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h1>Games</h1>
+            {{ games|length }} Games
+        </div>
+    </div>
+    {% if games |length == 0 %}
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <p class="alert alert-info">
+                    This is your collection of games and it's empty.<br>
+                    To add a game: &nbsp; &nbsp; <a title="Add/remove games from your list" class="btn btn-success btn-sm" href="{{ path('game_add') }}"><i class="fa fa-plus"></i> Add Game</a>
+                </p>
+            </div>
+        </div>
+    {% endif %}
+    <div class="col-md-12">
+    {% set currentUserId =  app.user.id %}
+    {% for type,messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+            <div class="alert alert-notice">
+                {{ message | raw }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading clearfix">
+                    <div class="btn-group pull-right">
+                        <a title="Add/remove games from your list" class="btn btn-success btn-sm" href="{{ path('game_add') }}"><i class="fa fa-plus"></i> Add Game</a>
+                    </div>
+                </div>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Game</th>
+                        <th scope="col">Plays</th>
+                        {#<th scope="col">Actions</th>#}
+                    </tr>
+                    </thead>
+                    {#Show error if pagination page number exceeds given limit#}
+                    {% if games.params.limit is defined and games.params.limit > max_limit_error %}
+                        <div class="alert alert-warning text-center">
+                            <p>
+                                There was an error (2123).<br>
+                                Please report this to the administrator </p>
+                        </div>
+                    {% else %}
+                        <tbody>
+                        {% for game in games %}
+                            {#Prepare empty array#}
+                            {% set gamePlayedCount = [] %}
+                            <tr row="{{ game.id }}">
+                                <td data-label="Game"><a class="btn btn-default" style="width: 100%;" href="{{ path('game_show', { 'id': game.id }) }}" title="{{ game.name }}">{{ game.name }} </a></td>
+                                <td data-label="Plays">
+                                        <span class="badge">
+                                        {#Playlogs of current games    #}
+                                            {% set playlogs = game.playlogs %}
+                                            {% for playlog in playlogs %}
+                                                {#Get the playlog user_id so we count only the current user's playlogs#}
+                                                {% set playlogUserId =  playlog.getuserid %}
+
+                                                {#If playlog user_id matches current user_id#}
+                                                {% if playlogUserId == currentUserId %}
+                                                    {% set gamePlayedCount = gamePlayedCount|merge([game.id]) %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {{ gamePlayedCount|length }}
+                                        </span>
+                                </td>
+                                {#<td data-label="Actions">#}
+
+                                {#<a class="btn btn-primary"#}
+                                {#href="{{ path('playlog_new', { 'gameId': game.id }) }}"><i class="fa fa-book"></i> Add Play#}
+                                {#</a>#}
+
+                                {#</td>#}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+{% import "macros.html.twig" as macro %}
+{% block content %}
+    <a class="btn btn-primary" href="{{ path('game_index') }}"><i class="fa fa-arrow-left"></i> My Game List</a>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h2>Add games</h2>
+            <hr>
+            <p>Add games to your list</p>
+        </div>
+    </div>
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            {{ form_widget(form.game) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 ">
+            <button title="Confirm" class="btn btn-success pull-right" type="submit"><i class="fa fa-check"></i>&nbsp;
+                Confirm
+            </button>
+        </div>
+    </div>
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 ">
+            <hr>
+            <p>Missing your game in the list? We try our very best to have your game in our database, however, not all exisiting games are there.<br>
+            You can help us by entering your game here:</p>
+            {{ form_start(addGameForm) }}
+            {{ form_widget(addGameForm.name, {
+                'id' : 'AddGameInput',
+                'attr': {
+                    'class': 'form-control'
+                }
+            }) }}
+            {{ form_widget(addGameForm.add, {
+                'attr': {
+                    'class' : 'form-control btn btn-primary'
+                }
+            }) }}
+            {{ form_end(addGameForm) }}
+        </div>
+    </div>
+
+{% endblock content %}
+{% block javascripts %}
+    {{ parent() }}
+
+
+    <script type="text/javascript" src="{{ asset('asset/chosen2/dist/js/select2.min.js') }}"></script>
+    <script type="text/javascript">
+        $('select').select2({
+
+            tags: true
+//            minimumInputLength: 3
+        });
+    // When entering text activate function
+    </script>
+
+
+{% endblock javascripts %}
+

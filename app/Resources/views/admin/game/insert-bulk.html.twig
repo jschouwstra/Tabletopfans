@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-4 ">
+            <h2>Dataset admin</h2>
+        </div>
+    </div>
+    <div class="col-md-12 ">
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="row">
+                    <h3>Bgg Range Importer</h3>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 ">
+                        {{ form_start(form) }}
+                        {{ form_widget(form) }}
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3>Dataset overview</h3>
+        </div>
+        <div class="row">
+            <p>Present in TTF dataset</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 ">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-info">Bgg ID</li>
+                    {% for game in allGamesInDataset %}
+                        <li class="list-group-item ">{{ game.bgg_id }}</li>
+                    {% endfor %}
+
+
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}

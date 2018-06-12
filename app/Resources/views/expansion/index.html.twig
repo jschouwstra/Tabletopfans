@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h2>My Game List</h2>
+        </div>
+    </div>
+    <div class="col-md-8 col-md-offset-2">
+    {% set currentUserId =  app.user.id %}
+    <hr>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-lg-12 ">
+            <div class="panel panel-primary">
+                <div class="panel-heading clearfix">
+                    <div class="btn-group pull-right">
+                        <a title="Add/remove games from your list" class="btn btn-default btn-sm" href="{{ path('game_add') }}"><i class="fa fa-list"></i>
+                            Manage My Game List</a>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover">
+                        <tr>
+                            <th>Game</th>
+                            <th>Plays</th>
+                            <th colspan="2">Actions</th>
+                        </tr>
+                        {#Show error if pagination page number exceeds given limit#}
+                        {% if games.params.limit is defined and games.params.limit > max_limit_error %}
+                            <div class="alert alert-warning text-center">
+                                <p>
+                                    There was an error (2123).<br>
+                                    Please report this to the administrator </p>
+                            </div>
+                        {% else %}
+                            {% for game in games %}
+                                {#Prepare empty array#}
+                                {% set gamePlayedCount = [] %}
+                                <tr>
+                                    <td><a href="{{ path('game_show', { 'id': game.id }) }}">{{ game.name }}</td>
+                                    <td><span class="badge">
+                                        {#Playlogs of current games    #}
+                                            {% set playlogs = game.playlogs %}
+                                            {% for playlog in playlogs %}
+                                                {#Get the playlog user_id so we count only the current user's playlogs#}
+                                                {% set playlogUserId =  playlog.getuserid %}
+
+                                                {#If playlog user_id matches current user_id#}
+                                                {% if playlogUserId == currentUserId %}
+                                                    {% set gamePlayedCount = gamePlayedCount|merge([game.id]) %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {{ gamePlayedCount|length }}
+                                        </span></td>
+                                    <td>
+                                        <a class="btn btn-primary" href="{{ path('game_show', { 'id': game.id }) }}">
+                                            <i class="fa fa-search"></i><span class="adaptiveText"> Show </span>
+                                        </a>
+                                        <a class="btn btn-primary"
+                                           href="{{ path('playlog_new', { 'gameId': game.id }) }}"><i class="fa fa-book"></i> <span class="adaptiveText">Log game</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

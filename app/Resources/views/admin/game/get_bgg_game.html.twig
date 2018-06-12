@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<div class="col-md-6 col-md-offset-2">
+    <div class="row">
+        <h3>Add new game</h3>
+    </div>
+</div>
+<div class="col-md-6 col-md-offset-2">
+    <div class="row">
+        <a href="https://boardgamegeek.com/" target="_blank" class="btn btn-primary"><i class="fa fa-external-link-square"></i> Go to Boardgamegeek.com</a>
+    </div>
+    {{ form_start(form) }}
+    <div class="row">
+        <label>Bgg ID</label>
+        {{ form_widget(retrieveGameForm.bgg_id, {
+            'attr': {
+                'class': 'form-control',
+                'id': 'bggID',
+                'label': 'Bgg Id',
+                'placeholder': 'Boardgamegeek ID'
+            }
+        }) }}
+
+        {{ form_widget(retrieveGameForm.isExpansion, {
+            'attr': {
+                'class': 'form-control',
+                'id': 'isExpansion',
+                'label': 'Is expansion',
+                'placeholder': 'Is expansion'
+            }
+        }) }}
+        {{ form_start(form) }}
+
+    </div>

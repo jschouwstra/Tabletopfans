@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+{% import "macros.html.twig" as macro %}
+{% block content %}
+
+    <a class="btn btn-primary" href="{{ path('game_index') }}"><i class="fa fa-arrow-left"></i> My Game List</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Game</h2>
+                <h3> {{ game.name }}</h3>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="well">
+                            <a class="btn btn-danger deleteBtn " gameId="{{ game.id }}" gameName="{{ game.name }}"
+                               href=""><i class="fa fa-remove"></i> Remove
+                            </a>
+                            <a class="btn btn-primary"
+                               href="{{ path('playlog_new', { 'gameId': game.id }) }}"> Log Play
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% if game.image %}
+                        <div class="col-md-4">
+                            <img src="{{ game.image }}" style="width:60%; border-radius: 6px;">
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        {% if plays == 1 %}
+                            {{ plays }} <b>Play</b>
+                            <hr>
+                        {% else %}
+                            {{ plays }}<br><b>Plays</b>
+                            <hr>
+                        {% endif %}
+                    </div>
+                    {% if game.playtime %}
+                        <div class="col-md-3">
+                            {{ game.playtime }} /
+                            {{ (game.playtime//60) }} hours <br>
+                            <b>Playing Time</b>
+                            <hr>
+                        </div>
+                    {% endif %}
+                    {% if game.noOfPlayers %}
+                        <div class="col-md-3">
+                            {{ game.noOfPlayers }}<br> <b>Players</b>
+                            <hr>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <a class="btn btn-primary" title="Open new window" target="_blank" href="https://boardgamegeek.com/boardgame/{{ game.bggId }}"><i class="fa fa-external-link"></i>&nbsp; More info </a>
+
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.deleteBtn').click(function () {
+                var gameId = $(this).attr('gameId');
+                var gameName = $(this).attr('gameName');
+                var confirmText = "Are you sure you want to delete the selected game - " + gameName + " - ?";
+                if (confirm(confirmText)) {
+                    $.ajax({
+                        type: "POST",
+                        url: '{{ path('remove_user_game') }}',//path to the route of PlayLogController->deleteBulkAction method
+                        data: JSON.stringify(gameId),
+                        success: function () {
+                            //Redirect
+                            $(location).attr('href', '{{ path('game_index') }}');
+                            return false;
+                        },
+                    });
+                }
+                return false;
+            });
+        });
+
+
+    </script>
+{% endblock javascripts %}

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>Plays</h1>
+    <hr>
+    <div class="row">
+        <div class="col-md-12 ">
+            {% for year in years %}
+            <h2>{{ year }}</h2><br>
+            <div class="panel panel-primary">
+                <div class="panel-heading clearfix">
+                </div>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Game</th>
+                        <th scope="col">Expansion</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for playlog in playlogs |sortbyfield("date")|reverse %}
+
+                        {% if year in  playlog.date|date("Y") %}
+                            <tr>
+                                <td data-label="Date">{{ playlog.date|date("M") }} ({{ playlog.date|date("Y") }})
+                                <td data-label="Game"><a class="btn btn-default" href="{{ path('game_show', { 'id': playlog.game.id}) }}">{{ playlog.game.name }}</td>
+                                {#{% if playlog.date|date ("Y") == 2017 %}#}
+                                {#2017!#}
+                                {#{% endif %}#}
+                                </td>
+                                <td data-label="Expansion">
+                                    {% if playlog.expansions | length > 0 %}
+                                        {% for expansion in playlog.expansions %}
+                                            {{ expansion.name }}<br>
+                                        {% endfor %}
+                                    {% else %}
+                                        None
+                                    {% endif %}
+                                </td>
+                                <td data-label="Description">
+                                    {% if playlog.description %}
+                                        {{ playlog.description }}
+                                    {% else %}
+                                        None
+                                    {% endif %}
+                                </td>
+                                <td data-label="Actions">
+                                    <div class="btn-toolbar" role="group">
+                                        <a class="btn btn-primary" href="{{ path('game_show', { 'id': playlog.game.id}) }}"><i class="fa fa-search"></i> Show</a>
+                                        <a class="btn btn-primary" href="{{ path('playlog_edit', { 'id': playlog.id }) }}"><i class="fa fa-pencil"></i> Edit</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}<br>
+        </div>
+    </div>
+{% endblock %}

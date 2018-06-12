@@ -1,0 +1,18 @@
+{#src\AppBundle\Resources\SensioGeneratorBundle\skeleton\crud\views\new.html.twig.twig#}
+{% block extends %}
+{{ "{% extends 'base.html.twig' %}" }}
+{% endblock extends %}
+
+{% block content %}
+{{ "{% block content %}" }}
+    <h1>{{ entity_singularized|capitalize }} creation</h1>
+
+    {{ '{{ form_start(form) }}' }}
+        {{ '{{ form_widget(form) }}' }}
+        <input type="submit" value="Create" />
+    {{ '{{ form_end(form) }}' }}
+
+{% set hide_edit, hide_delete = true, true %}
+{{ include('crud/views/others/record_actions.html.twig.twig') -}}
+{{ "{% endblock %}" }}
+{% endblock content %}

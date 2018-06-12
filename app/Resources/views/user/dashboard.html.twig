@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+{% import "macros.html.twig" as macro %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 ">
+            <div class="col-md-6 ">
+                <h2>Profile</h2>
+                <hr>
+                {{ app.user.username |raw|capitalize }}
+            </div>
+            <div class="col-md-6 ">
+                <h2>Trophies</h2>
+                <hr>
+                <div class="col-lg-6">
+                    <div class="alert alert-info" role="alert">
+                    <i class="fa fa-trophy fa-2x"></i>
+                        <span class="fa-2x">First play</span>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script src="{{ asset('asset/highcharts/highcharts.js') }}"></script>
+    <script src="{{ asset('asset/highcharts/highcharts-3d.js') }}"></script>
+    <script src="{{ asset('asset/highcharts/modules/exporting.js') }}"></script>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 ">
+            <h2>Games played</h2>
+            {% if gameplays %}
+                <hr>
+                {#<div id="container"></div>#}
+                <div id="container" style="width:100%; height:400px;"></div>
+            {% else %}
+                <div class="col-md-4">
+                <p class="alert alert-info">You don't have any playlogs &nbsp; <a class="btn btn-primary" href="{{ path('game_index') }}">Add one here</a></p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <script type="text/javascript">
+        var labels = {{ games|json_encode()|raw }};
+        var data = {{ gameplays|json_encode()|raw }};
+
+        $(function () {
+            var myChart = Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: labels
+                },
+                yAxis: {
+                    title: {
+                        text: ''
+                    },
+                    allowDecimals: false
+
+                },
+                series: [{
+                    name: 'Plays',
+                    data: data
+                }]
+            });
+        });
+    </script>
+{% endblock %}

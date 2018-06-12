@@ -1,0 +1,137 @@
+#content {
+    padding-top: 140px;
+    padding-bottom: 140px;
+}
+
+.background {
+    background-color: white;
+    /*background-image: url('../img/stardust.png');*/
+}
+
+#main {
+    padding: 22px;
+    /*temp*/
+    background-color: rgb(68, 67, 73);
+}
+
+.panel-body {
+    padding: 20px;
+}
+
+.btn {
+    /*margin-top: 2px !important;*/
+    /*margin-bottom: 2px;*/
+}
+
+@media (min-width: 1px) and (max-width: 1000px) {
+    .logo {
+        display: none
+    }
+}
+
+@media (min-width: 100px) and (max-width: 1000px) {
+    .adaptiveText {
+        display: none;
+    }
+}
+
+/*datatables*/
+.dataTables_filter, .dataTables_info {
+    display: none;
+}
+
+table td a:link, table td a:visited {
+    text-transform: capitalize;
+}
+
+.row {
+    margin-bottom: 10px;
+}
+
+.select2 {
+    width: 100% !important;
+}
+
+@media screen and (max-width: 767px) {
+    .select2 {
+        width: 100% !important;
+        min-height: 100px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .btn {
+        /*button, .btn{*/
+        width: 100%;
+    }
+}
+
+/*.alert, .custom {*/
+    /*padding: 15px;*/
+    /*margin-bottom: 20px;*/
+    /*border: 1px solid transparent;*/
+    /*border-radius: 4px;*/
+    /*!*background-color: #00a7d0;*!*/
+    /*color: white;*/
+/*}*/
+
+/*.alert, .custom a:link {*/
+    /*color: white;*/
+
+/*}*/
+
+.alert-highlight{
+    background: #00b3ee;
+    color: white;
+}
+
+.navbar-inverse {
+    background-color: #283E4A;
+
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: white;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+    color: white;
+}
+
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
+    background-color: white;
+}
+
+.dropdown-menu > li > a {
+    color: black !important;
+}
+
+.dropdown-menu > li > a:hover {
+    background-color: #F7F7F9 !important;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    background-color: #4C9ED9;
+    border-radius: 2px;
+}
+
+.navbar-inverse .navbar-nav > .open > a:focus {
+    background-color: #4C9ED9;
+}
+
+.navbar-inverse.btn {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+
+.btn{
+    white-space: normal !important;
+    /*max-width: 200px;*/
+}
+/*Chosen2 bigger options */
+.select2-selection__choice{
+    font-size: 19px !important;
+}
+
+

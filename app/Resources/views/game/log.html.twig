@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    Adding log for {{ game.name }}
+    {{ form_widget(form.playlogs) }}
+
+    <input type="submit" value="Create" class="btn btn-default pull-left" />
+{% endblock content %}

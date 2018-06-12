@@ -1,0 +1,81 @@
+
+
+{% macro input(name, value, type, size) %}
+    <input class="form-control" type="{{ type|default('text') }}" name="{{ name }}" value="{{ value|default('text') }}" size="{{ size|default(20) }}"/>
+{% endmacro %}
+
+
+{% macro btnNew(dest) %}
+    <a title="Nieuw" href="{{ path(dest) }}" class="btn btn-base"><i class="fa fa-plus"></i> <span class="adaptiveText">&nbsp;Nieuw</span></a>
+{% endmacro %}
+
+{% macro btnShow(object,dest) %}
+    <a title="Toon" href="{{ path( dest, {'id':object.id} ) }}" class="btn btn-base"><i class="fa fa-search-plus"></i> <span class="adaptiveText">&nbsp;Toon</span></a>
+{% endmacro %}
+
+{% macro btnEdit(object,dest) %}
+    <a title="Aanpassen" href="{{ path( dest, {'id':object.id} ) }}" class="btn btn-base"><i class="fa fa-pencil-square-o"></i> <span class="adaptiveText">&nbsp;Aanpassen</span></a>
+{% endmacro %}
+
+{% macro btnList(dest) %}
+    <a title="Overzicht" href="{{ path(dest) }}" class="btn btn-base"><i class="fa fa-list"></i> <span class="adaptiveText">&nbsp;Overzicht</span></a>
+{% endmacro %}
+
+{% macro btnDelete(object,dest) %}
+    <a title="Verwijderen" class="btn btn-danger " onclick="return confirm('Weet u zeker dat u dit item wilt verwijderen?');" href="{{ path( dest, {'id':object.id} ) }}"><i class="fa fa-remove"></i> <span class="adaptiveText">&nbsp;Verwijderen</span> </a>
+{% endmacro %}
+
+{% macro btnDeactivate(object,dest) %}
+    {% if object.active == 1 %}
+        <a title="Deactiveer" class="btn btn-danger" onclick="return confirm('Weet u zeker dat u dit item wilt deactiveren?');" href="{{ path( dest, {'id':object.id} ) }}"><i class="fa fa-remove"></i> <span class="adaptiveText"></span> </a>
+    {% else %}
+        <a title="Gedeactiveerd" class="btn btn-default" href="#"><i class="fa fa-remove"></i> <span class="adaptiveText"></span> </a>
+    {% endif %}
+{% endmacro %}
+
+{% macro btnManage(dest,array) %}
+    <a title="Manager" href="{{ path(dest, array ) }}" class="btn btn-base"><i class="fa fa-window-maximize"></i> <span class="adaptiveText">&nbsp;Beheren</span></a>
+{% endmacro %}
+
+{% macro btnBack(dest,array, btnText) %}
+    <a title="Manager" href="{{ path(dest, array ) }}" class="btn btn-base"><i class="fa fa-arrow-left"></i> <span class="adaptiveText">&nbsp;{{ btnText }}</span></a>
+{% endmacro %}
+
+{% macro btnSearch(dest, array) %}
+    <a title="Manager" href="{{ path(dest, array ) }}" class="btn btn-base"><i class="fa fa-search"></i> <span class="adaptiveText">&nbsp;Zoeken</span></a>
+{% endmacro %}
+
+{% macro btnAddTo(object,dest) %}
+    <a title="Toevoegen" href="{{ path( dest, {'parent_id':object.id} ) }}" class="btn btn-base"><i class="fa fa-plus-square-o"></i> <span class="adaptiveText">&nbsp;Toevoegen</span></a>
+{% endmacro %}
+
+{% macro btnAddTranslation(object,dest) %}
+    <a title="Vertaling toevoegen" href="{{ path( dest, {'lookupListItemId':object.id} ) }}" class="btn btn-base"><i class="fa fa-flag"></i> <span class="adaptiveText">&nbsp;Toevoegen</span></a>
+{% endmacro %}
+
+{#Resource specific#}
+{% macro btnDeleteRelationLookuplistItemAndLanguage(object1,object2,dest) %}
+    <a title="Verwijder" class="btn btn-danger " onclick="return confirm('Weet u zeker dat u dit item wilt verwijderen?');" href="{{ path( dest, {'lookupListItemId':object1.id,'id':object2.id} ) }}"><i class="fa fa-remove"></i> <span class="adaptiveText">&nbsp;Verwijderen</span> </a>
+{% endmacro %}
+
+{#--- Update february 2017 --#}
+{% macro btnConfirm(data,class,icon,notification,text) %}
+    <a title="{{ text }}" onclick="return confirm('{{ notification }}');" href="{{ data }}" class="{{ class }}"><i class="{{ icon }}"></i> <span class="adaptiveText">&nbsp;  {{ text }}</span></a>
+{% endmacro %}
+
+{% macro btnUniversal(data,class,icon,text) %}
+    <a title="{{ text }}" href="{{ data }}" class="{{ class }}"><i class="{{ icon }}"></i> <span class="adaptiveText">&nbsp;  {{ text }}</span></a>
+{% endmacro %}
+
+{% macro btnGoBack() %}
+    <button title="Ga terug" class="btn btn-base" onClick="goBack()"><i class="fa fa-arrow-left"></i><span class="adaptiveText">&nbsp; Go back</span></button>
+{% endmacro %}
+{% macro btnGoTo() %}
+    <button class="btn btn-base"><i class="fa fa-arrow-left"></i><span class="adaptiveText">&nbsp; Go back</span></button>
+{% endmacro %}
+
+{% macro btnSubmit() %}
+    <div class="btn-group pull-right">
+        <button title="Confirm" class="btn btn-success" type="submit"><i class="fa fa-check"></i>&nbsp;Confirm</button>
+    </div>
+{% endmacro %}

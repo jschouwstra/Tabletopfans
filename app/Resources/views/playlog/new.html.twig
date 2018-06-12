@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+{% import "macros.html.twig" as macro %}
+
+{% block content %}
+    <style>
+        .ui-datepicker-calendar {
+            display: none;
+        }
+    </style>
+    <a class="btn btn-primary" href="{{ path('game_index') }}"><i class="fa fa-arrow-left"></i> My Game List</a>
+    <div class="row">
+
+        <div class="col-md-6 col-md-offset-3">
+            <h1>Add play</h1>
+            <h3>{{ playlog.game.name }}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p>Add a play session of this game.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            {{ form_start(form) }}
+            <table class="table table-bordered">
+                <tr>
+                    <td>
+                        When did you play this game?
+                    </td>
+                    <td>
+                        <div class="datepicker">
+                            {{ form_widget(form.date) }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Expansion
+                    </td>
+                    <td>
+                        <div>
+                            {{ form_widget(form.expansions) }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Description
+                    </td>
+                    <td>
+                        <div>
+                            {{ form_widget(form.description) }}
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            {{ macro.btnSubmit() }}
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css">
+{% endblock stylesheets %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('asset/jquery-ui-1.12.1/jquery-ui.min.js') }}"></script>
+
+    <script type="text/javascript">
+        //        $(document).ready(function () {
+        //                $('.datepicker').datepicker({
+        //                    format: 'mm/dd/yyyy'
+        //                });
+        //                $('.datepicker').focus();
+        //            }
+        //        );
+        $(function() {
+            $('.date-picker').datepicker(
+                {
+                    dateFormat: "mm/yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    showButtonPanel: true,
+                    onClose: function(dateText, inst) {
+
+
+                        function isDonePressed(){
+                            return ($('#ui-datepicker-div').html().indexOf('ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all ui-state-hover') > -1);
+                        }
+
+                        if (isDonePressed()){
+                            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                            $(this).datepicker('setDate', new Date(year, month, 1)).trigger('change');
+
+                            $('.date-picker').focusout()//Added to remove focus from datepicker input box on selecting date
+                        }
+                    },
+                    beforeShow : function(input, inst) {
+
+                        inst.dpDiv.addClass('month_year_datepicker')
+
+                        if ((datestr = $(this).val()).length > 0) {
+                            year = datestr.substring(datestr.length-4, datestr.length);
+                            month = datestr.substring(0, 2);
+                            $(this).datepicker('option', 'defaultDate', new Date(year, month-1, 1));
+                            $(this).datepicker('setDate', new Date(year, month-1, 1));
+                            $(".ui-datepicker-calendar").hide();
+                        }
+                    }
+                })
+        });
+    </script>
+
+
+
+    <script type="text/javascript" src="{{ asset('asset/chosen2/dist/js/select2.min.js') }}"></script>
+
+    <script type="text/javascript">
+        $('select').select2({});
+    </script>
+{% endblock javascripts %}
+

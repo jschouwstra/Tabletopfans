@@ -1,0 +1,15 @@
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+logout:
+    path: /logout
+
+fos_user_registration_confirmed:
+    path: /user/profile
+    defaults: { _controller: MDBUserBundle:User:confirmed }
+    requirements:
+        method: GET
