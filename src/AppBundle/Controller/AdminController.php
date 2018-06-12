@@ -441,8 +441,7 @@ class AdminController extends Controller
             $count = 1;
             $bggGamesToBeInserted = array();
             for ($x = 0; $x < $listQuantity; $x++) {
-                $exists = $em->getRepository(Game::class)
-                    ->bggIdExists($list[$x]);
+                $exists = $em->getRepository(Game::class)->bggIdExists($list[$x]);
                 if (!$exists) {
                     array_push($bggGamesToBeInserted, $list[$x]);
                 }
@@ -468,6 +467,7 @@ class AdminController extends Controller
 
     public function newGameByBggId($bgg_id)
     {
+        $em = $this->getDoctrine()->getManager();
         $client = new \Nataniel\BoardGameGeek\Client();
         $thing = $client->getThing($bgg_id, true);
         if (!$thing->isBoardgameExpansion()) {
@@ -488,20 +488,23 @@ class AdminController extends Controller
                 }
             }
         } else {
-            if ($thing->getName()) {
-                if ($thing->getMinPlayers() > 0) {
-                    $expansion = new Expansion();
+            $exists = $em->getRepository(Expansion::class)->bggIdExists($bgg_id);
+            if (!$exists) {
+                if ($thing->getName()) {
+                    if ($thing->getMinPlayers() > 0) {
+                        $expansion = new Expansion();
 
-                    $expansion->setBggId($bgg_id);
-                    $expansion->setName($thing->getName());
-                    $expansion->setNoOfPlayers($thing->getMinPlayers() . "-" . $thing->getMaxPlayers());
-                    $expansion->setPlaytime($thing->getPlayingTime());
-                    $expansion->setImage($thing->getImage());
-                    $expansion->setIsExpansion($thing->isBoardgameExpansion());
+                        $expansion->setBggId($bgg_id);
+                        $expansion->setName($thing->getName());
+                        $expansion->setNoOfPlayers($thing->getMinPlayers() . "-" . $thing->getMaxPlayers());
+                        $expansion->setPlaytime($thing->getPlayingTime());
+                        $expansion->setImage($thing->getImage());
+                        $expansion->setIsExpansion($thing->isBoardgameExpansion());
 
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($expansion);
-                    $em->flush();
+                        $em = $this->getDoctrine()->getManager();
+                        $em->persist($expansion);
+                        $em->flush();
+                    }
                 }
             }
         }
@@ -528,10 +531,10 @@ class AdminController extends Controller
             array_push($missingNumbers, $item);
         }
 
-//        return $missingNumbers;
-        foreach($missingNumbers as $item){
-            echo $item."<br>";
-        }
+        return $missingNumbers;
+//        foreach($missingNumbers as $item){
+//            echo $item."<br>";
+//        }
     }
 
 

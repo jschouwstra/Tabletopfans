@@ -10,5 +10,21 @@ namespace AppBundle\Repository;
  */
 class ExpansionRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function bggIdExists($bgg_id)
+    {
+        $fields = array('expansion.bgg_id');
+        $query = $this->getEntityManager()->createQueryBuilder();
 
+        $query
+            ->select($fields)
+            ->from('AppBundle:Expansion', 'expansion')
+            ->andWhere('expansion.bgg_id =' . $bgg_id);
+
+        $results = $query->getQuery()->getResult();
+        if (count($results) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
