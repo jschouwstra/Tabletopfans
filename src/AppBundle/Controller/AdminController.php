@@ -426,36 +426,42 @@ class AdminController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             // Temporary change to script time limit
             set_time_limit(999999999);
 
+            //Collect form data
             $rangeMin = $form->get('range-min')->getData();
             $rangeMax = $form->get('range-max')->getData();
-            $list = array();
+            $range = array();
 
+            //Create array from given range
             foreach (range($rangeMin, $rangeMax) as $number) {
-                array_push($list, $number);
+                array_push($range, $number);
             }
 
-            $listQuantity = count($list);
+            $rangeQuantity = count($range);
             $count = 1;
             $bggGamesToBeInserted = array();
-            for ($x = 0; $x < $listQuantity; $x++) {
-                $exists = $em->getRepository(Game::class)->bggIdExists($list[$x]);
+            for ($x = 0; $x < $rangeQuantity; $x++) {
+                $exists = $em->getRepository(Game::class)->bggIdExists($range[$x]);
                 if (!$exists) {
-                    array_push($bggGamesToBeInserted, $list[$x]);
+                    array_push($bggGamesToBeInserted, $range[$x]);
                 }
                 $count++;
             }
+            $insertCount = 0;
             foreach ($bggGamesToBeInserted as $bggId) {
 
-                echo $bggId . "<br>";
+                $insertCount++;
                 $this->newGameByBggId($bggId);
                 sleep(2);
             }
-            echo "Done";
             // set time limit back to default value
             set_time_limit(120);
+
+
+            echo "Quantity added: ".$insertCount."<br>";
 
         }
 
@@ -470,11 +476,16 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $client = new \Nataniel\BoardGameGeek\Client();
         $thing = $client->getThing($bgg_id, true);
+
+        //If current bgg Id is a game add game
         if (!$thing->isBoardgameExpansion()) {
+
+            //If it's a valid game object
             if ($thing->getName()) {
                 if ($thing->getMinPlayers() > 0) {
                     $game = new Game();
 
+                    //set up new game object
                     $game->setBggId($bgg_id);
                     $game->setName($thing->getName());
                     $game->setNoOfPlayers($thing->getMinPlayers() . "-" . $thing->getMaxPlayers());
@@ -482,18 +493,26 @@ class AdminController extends Controller
                     $game->setImage($thing->getImage());
                     $game->setIsExpansion($thing->isBoardgameExpansion());
 
+                    //Initiate database manager
                     $em = $this->getDoctrine()->getManager();
+                    //prepare object for insertion
                     $em->persist($game);
+
+                    //Insert game
                     $em->flush();
                 }
             }
-        } else {
+        }
+        //If current bgg ID isn't a game
+        else {
             $exists = $em->getRepository(Expansion::class)->bggIdExists($bgg_id);
             if (!$exists) {
+                //If it's a valid expansion object
                 if ($thing->getName()) {
                     if ($thing->getMinPlayers() > 0) {
                         $expansion = new Expansion();
 
+                        //set up new expansion object
                         $expansion->setBggId($bgg_id);
                         $expansion->setName($thing->getName());
                         $expansion->setNoOfPlayers($thing->getMinPlayers() . "-" . $thing->getMaxPlayers());
@@ -531,10 +550,8 @@ class AdminController extends Controller
             array_push($missingNumbers, $item);
         }
 
+        //return all bgg numbers not present in dataset
         return $missingNumbers;
-//        foreach($missingNumbers as $item){
-//            echo $item."<br>";
-//        }
     }
 
 
