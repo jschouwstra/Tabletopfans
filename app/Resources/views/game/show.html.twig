@@ -20,14 +20,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    {% if game.image %}
-                        <div class="col-md-4">
-                            <img src="{{ game.image }}" style="width:60%; border-radius: 6px;">
-                        </div>
-                    {% endif %}
-                </div>
             </div>
             <div class="container">
                 <div class="row">
@@ -55,7 +47,9 @@
                     {% endif %}
                 </div>
 
-                <a class="btn btn-primary" title="Open new window" target="_blank" href="https://boardgamegeek.com/boardgame/{{ game.bggId }}"><i class="fa fa-external-link"></i>&nbsp; More info </a>
+                <a class="btn btn-primary" title="Open new window" target="_blank"
+                   href="https://boardgamegeek.com/boardgame/{{ game.bggId }}"><i class="fa fa-external-link"></i>&nbsp;
+                    More info </a>
 
 
             </div>
