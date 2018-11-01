@@ -15,8 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="game" , uniqueConstraints={@UniqueConstraint(name="unique", columns={"bgg_id", "name"})})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\GameRepository")
  */
-class Game
-{
+class Game {
     /****************************************
      *
      *          Relations
@@ -82,14 +81,6 @@ class Game
 
 
     /**
-     * @var string
-     * @ORM\Column(name="image", type="string", length=255, nullable=true)
-     */
-    private $image;
-
-
-
-    /**
      * @ORM\Column(name="is_expansion",nullable=false, type="integer", options={"unsigned": true, "default" :0})
      */
     private $isExpansion;
@@ -105,33 +96,29 @@ class Game
     /**
      * @return mixed
      */
-    public function getisExpansion()
-    {
+    public function getisExpansion() {
         return $this->isExpansion;
     }
 
     /**
      * @param mixed $isExpansion
      */
-    public function setIsExpansion($isExpansion)
-    {
+    public function setIsExpansion($isExpansion) {
         $this->isExpansion = $isExpansion;
     }
 
-  
+
     /**
      * @return ArrayCollection
      */
-    public function getUsers()
-    {
+    public function getUsers() {
         return $this->users;
     }
 
     /**
      * @param ArrayCollection $users
      */
-    public function setUsers($users)
-    {
+    public function setUsers($users) {
         $this->users = $users;
     }
 
@@ -139,8 +126,7 @@ class Game
     /**
      * Game constructor.
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->playlogs = new ArrayCollection();
         $this->expansions = new ArrayCollection();
         $this->users = new ArrayCollection();
@@ -151,8 +137,7 @@ class Game
      *
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -161,8 +146,7 @@ class Game
      *
      * @return int
      */
-    public function getBggId()
-    {
+    public function getBggId() {
         return $this->bgg_id;
     }
 
@@ -170,8 +154,7 @@ class Game
      * Set bgg_id
      *
      */
-    public function setBggId($bgg_id)
-    {
+    public function setBggId($bgg_id) {
         $this->bgg_id = $bgg_id;
     }
 
@@ -183,8 +166,7 @@ class Game
      *
      * @return Game
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -195,8 +177,7 @@ class Game
      *
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
 
     }
@@ -206,8 +187,7 @@ class Game
     /**
      * @return mixed
      */
-    public function getPlaylogs()
-    {
+    public function getPlaylogs() {
         return $this->playlogs;
     }
 
@@ -215,33 +195,28 @@ class Game
     /**
      * @return mixed
      */
-    public function getExpansions()
-    {
+    public function getExpansions() {
         return $this->expansions;
     }
 
     /**
      * @param mixed $expansions
      */
-    public function setExpansions($expansions)
-    {
+    public function setExpansions($expansions) {
         $this->expansions = $expansions;
     }
 
-    public function addExpansion(Expansion $expansion)
-    {
+    public function addExpansion(Expansion $expansion) {
         $this->expansions->add($expansion);
         return $this;
     }
 
-    public function removeExpansion(Expansion $expansion)
-    {
+    public function removeExpansion(Expansion $expansion) {
         $this->expansions->removeElement($expansion);
     }
 
 
-    public function removeAllExpansions()
-    {
+    public function removeAllExpansions() {
         foreach ($this->expansions as $expansion) {
             $this->removeExpansion($expansion);
         }
@@ -250,53 +225,32 @@ class Game
     /**
      * @return mixed
      */
-    public function getNoOfPlayers()
-    {
+    public function getNoOfPlayers() {
         return $this->no_of_players;
     }
 
     /**
      * @param mixed $no_of_players
      */
-    public function setNoOfPlayers($no_of_players)
-    {
+    public function setNoOfPlayers($no_of_players) {
         $this->no_of_players = $no_of_players;
     }
 
     /**
      * @return string
      */
-    public function getPlaytime()
-    {
+    public function getPlaytime() {
         return $this->playtime;
     }
 
     /**
      * @param string $playtime
      */
-    public function setPlaytime($playtime)
-    {
+    public function setPlaytime($playtime) {
         $this->playtime = $playtime;
     }
 
-    /**
-     * @return string
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    /**
-     * @param string $image
-     */
-    public function setImage($image)
-    {
-        $this->image = $image;
-    }
-
-    public function getPlays()
-    {
+    public function getPlays() {
         /**
          * @var GameController $gamecontroller
          */
