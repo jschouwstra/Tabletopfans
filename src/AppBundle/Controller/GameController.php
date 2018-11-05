@@ -58,6 +58,7 @@ class GameController extends Controller
         return $this->render('game/index.html.twig', array(
             'games' => $userGames,
             'max_limit_error' => 25,
+            'getPlays' => $this->getPlaysByGameId(1)
         ));
     }
 

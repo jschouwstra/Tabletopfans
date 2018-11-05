@@ -158,15 +158,15 @@ class AdminController extends Controller
                     ),
                 )
             )
-            ->add('image', TextType::class, array(
-                    'attr' => array(
-                        'id' => 'image',
-                        'label' => 'Image',
-                        'class' => 'form-control',
-                        'readonly' => true
-                    ),
-                )
-            )
+//            ->add('image', TextType::class, array(
+//                    'attr' => array(
+//                        'id' => 'image',
+//                        'label' => 'Image',
+//                        'class' => 'form-control',
+//                        'readonly' => true
+//                    ),
+//                )
+//            )
             ->add('no_of_players', TextType::class, array(
                     'attr' => array(
                         'id' => 'no_of_players',
@@ -281,15 +281,15 @@ class AdminController extends Controller
                     ),
                 )
             )
-            ->add('image', TextType::class, array(
-                    'attr' => array(
-                        'id' => 'image',
-                        'label' => 'Image',
-                        'class' => 'form-control',
-                        'readonly' => true
-                    ),
-                )
-            )
+//            ->add('image', TextType::class, array(
+//                    'attr' => array(
+//                        'id' => 'image',
+//                        'label' => 'Image',
+//                        'class' => 'form-control',
+//                        'readonly' => true
+//                    ),
+//                )
+//            )
             ->add('no_of_players', TextType::class, array(
                     'attr' => array(
                         'id' => 'no_of_players',
