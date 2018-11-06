@@ -19,16 +19,14 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @Route("playlog")
  */
-class PlayLogController extends Controller
-{
+class PlayLogController extends Controller {
     /**
      * Lists all playLog entities.
      *
      * @Route("/", name="playlog_index")
      * @Method("GET")
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $user = $this->getUser();
         $playlogs = $user->getPlaylogs();
         $years = $this->getYears();
@@ -39,8 +37,7 @@ class PlayLogController extends Controller
         ));
     }
 
-    public function getYears()
-    {
+    public function getYears() {
         $user = $this->getUser();
         $playlogs = $user->getPlaylogs();
 
@@ -54,7 +51,6 @@ class PlayLogController extends Controller
 
             //If value isn't in the array
             if (!in_array($year, $years, true)) {
-
                 //Add year to years list
                 array_push($years, $year);
             }
@@ -71,8 +67,7 @@ class PlayLogController extends Controller
      * @Route("/{gameId}/new", name="playlog_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request, $gameId)
-    {
+    public function newAction(Request $request, $gameId) {
         /** @var User $userObject */
         $userObject = $this->getUser();
         $playlog = new PlayLog();
@@ -111,8 +106,7 @@ class PlayLogController extends Controller
      * @Route("/{id}", name="playlog_show")
      * @Method("GET")
      */
-    public function showAction(PlayLog $playLog)
-    {
+    public function showAction(PlayLog $playLog) {
         $deleteForm = $this->createDeleteForm($playLog);
 
         return $this->render('playlog/show.html.twig', array(
@@ -128,8 +122,7 @@ class PlayLogController extends Controller
      * @Route("/{id}/edit", name="playlog_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, PlayLog $playLog)
-    {
+    public function editAction(Request $request, PlayLog $playLog) {
         $deleteForm = $this->createDeleteForm($playLog);
         $editForm = $this->createForm('AppBundle\Form\PlayLogType', $playLog);
         $editForm->handleRequest($request);
@@ -151,8 +144,7 @@ class PlayLogController extends Controller
     /**
      * @Route("/delete/bulk", name="playlog_delete_bulk")
      */
-    public function deleteBulkAction(Request $request)
-    {
+    public function deleteBulkAction(Request $request) {
 
         $array = json_decode($request->getContent());
         $em = $this->getDoctrine()->getManager();
@@ -174,8 +166,7 @@ class PlayLogController extends Controller
      * @Route("/{id}", name="playlog_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, PlayLog $playLog)
-    {
+    public function deleteAction(Request $request, PlayLog $playLog) {
         $form = $this->createDeleteForm($playLog);
         $form->handleRequest($request);
 
@@ -195,8 +186,7 @@ class PlayLogController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(PlayLog $playLog)
-    {
+    private function createDeleteForm(PlayLog $playLog) {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('playlog_delete', array('id' => $playLog->getId())))
             ->setMethod('DELETE')

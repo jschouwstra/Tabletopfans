@@ -42,8 +42,6 @@ class Game {
      *          Properties
      *
      ***************************************/
-
-
     /**
      * @var int
      *
@@ -84,6 +82,11 @@ class Game {
      * @ORM\Column(name="is_expansion",nullable=false, type="integer", options={"unsigned": true, "default" :0})
      */
     private $isExpansion;
+
+    /**
+     * @ORM\Column(name="is_favorite",nullable=false, type="integer", options={"unsigned": true, "default" :0})
+     */
+    private $isFavorite;
 
 
     /****************************************
@@ -256,6 +259,21 @@ class Game {
          */
         $plays = $gamecontroller->getPlayCountByGameId($this->getId());
         return $plays;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getisFavorite() {
+        return $this->isFavorite;
+    }
+
+    /**
+     * @param mixed $isFavorite
+     */
+    public function setIsFavorite($isFavorite) {
+        $this->isFavorite = $isFavorite;
     }
 
 }
