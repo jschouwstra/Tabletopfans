@@ -35,16 +35,14 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
  *
  * @Route("game")
  */
-class GameController extends Controller
-{
+class GameController extends Controller {
     /**
      * Lists all user's game entities.
      *
      * @Route("/", name="game_index")
      * @Method("GET")
      */
-    public function indexAction(Request $request)
-    {
+    public function indexAction(Request $request) {
         /*
          * The FOSUser object (current user) is injected in the container so we can access it globally
          *
@@ -58,6 +56,7 @@ class GameController extends Controller
         return $this->render('game/index.html.twig', array(
             'games' => $userGames,
             'max_limit_error' => 25,
+            'getPlays' => $this->getPlaysByGameId(1)
         ));
     }
 
@@ -67,8 +66,7 @@ class GameController extends Controller
      * @Route("/user/json", name="user_games_json")
      * @Method("GET")
      */
-    public function returnUserGamesAsJson(Request $request)
-    {
+    public function returnUserGamesAsJson(Request $request) {
         /*
          * The FOSUser object (current user) is injected in the container so we can access it globally
          *
@@ -96,8 +94,7 @@ class GameController extends Controller
      * @Route("/all/json", name="find_games_json")
      * @Method("GET")
      */
-    public function returnAllGamesAsJson(Request $request)
-    {
+    public function returnAllGamesAsJson(Request $request) {
         //Use existing GameRepository, Appbundle:Game
         $gameRepository = $this->getDoctrine()
             ->getManager()
@@ -121,8 +118,7 @@ class GameController extends Controller
      * @Route("/{id}", name="game_show")
      * @Method("GET")
      */
-    public function showAction(Game $game, $id)
-    {
+    public function showAction(Game $game, $id) {
         $gameId = $id;
         /**
          * User $user
@@ -142,8 +138,7 @@ class GameController extends Controller
         ));
     }
 
-    public function getPlaysByGameId($gameId)
-    {
+    public function getPlaysByGameId($gameId) {
         $userId = $this->getUser()->getId();
         $manager = $this->getDoctrine()->getManager();
 
@@ -164,8 +159,7 @@ class GameController extends Controller
      * @Route("/{id}/edit", name="game_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Game $game)
-    {
+    public function editAction(Request $request, Game $game) {
         $deleteForm = $this->createDeleteForm($game);
         $editForm = $this->createForm('AppBundle\Form\GameType', $game);
         $editForm->handleRequest($request);
@@ -189,8 +183,7 @@ class GameController extends Controller
      *
      * @Route("/remove/game/user", name="remove_user_game")
      */
-    public function removeGameFromUser(Request $request)
-    {
+    public function removeGameFromUser(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $gameId = json_decode($request->getContent());
         $game = $em->getRepository(Game::class)->find($gameId);
@@ -214,8 +207,7 @@ class GameController extends Controller
      * @Route("/{id}", name="game_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Game $game)
-    {
+    public function deleteAction(Request $request, Game $game) {
         $form = $this->createDeleteForm($game);
         $form->handleRequest($request);
 
@@ -235,8 +227,7 @@ class GameController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Game $game)
-    {
+    private function createDeleteForm(Game $game) {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('game_delete', array('id' => $game->getId())))
             ->setMethod('DELETE')
@@ -247,8 +238,7 @@ class GameController extends Controller
      * @Route("/add/expansion/to/{gameId}", name="add_expansion_to_game")
      * @Method({"GET", "POST"})
      */
-    public function addExpansionAction(Game $gameId, Request $request)
-    {
+    public function addExpansionAction(Game $gameId, Request $request) {
         $form = $this->createForm('AppBundle\Form\addExpansionToGameType');
         $form->handleRequest($request);
         $game = $gameId;
@@ -279,8 +269,7 @@ class GameController extends Controller
         ));
     }
 
-    public function getAllUserGames()
-    {
+    public function getAllUserGames() {
         /** @var User $user */
         $user = $this->getUser();
         $userGames = $user->getGames();
@@ -294,8 +283,7 @@ class GameController extends Controller
      * @Method({"GET", "POST"})
      *
      */
-    public function isExpansion(Request $request)
-    {
+    public function isExpansion(Request $request) {
         $bgg_id = 223555;
         $client = new \Nataniel\BoardGameGeek\Client();
         $thing = $client->getThing($bgg_id, true);
@@ -316,8 +304,7 @@ class GameController extends Controller
      * @Route("/findBy/bggId", name="findGameByBggId")
      * @Method("POST")
      */
-    public function getGameByBggId(Request $request)
-    {
+    public function getGameByBggId(Request $request) {
         $bgg_id = $request->request->get('bggId');
         if (is_numeric($bgg_id)) {
             $client = new \Nataniel\BoardGameGeek\Client();
@@ -353,8 +340,7 @@ class GameController extends Controller
      *
      * @Method("GET")
      */
-    public function getBggObjectByNameTest()
-    {
+    public function getBggObjectByNameTest() {
 
         $name = 'catan';
         $url = 'https://www.boardgamegeek.com/xmlapi2/search/?query=' . $name;
@@ -379,20 +365,18 @@ class GameController extends Controller
      * @Route("/findBy/bggName", name="findGameByName")
      * @Method("GET")
      */
-    public function getBggObjectByNameTest2(){
+    public function getBggObjectByNameTest2() {
         $client = new Client();
         $results = $client->search('warcraft');
         $things = array();
-        foreach($results as $item){
+        foreach ($results as $item) {
             echo $item->getName();
         }
 
 
-
     }
 
-    public function getAllGames()
-    {
+    public function getAllGames() {
         /**
          * @var EntityManager $em
          */
@@ -408,8 +392,7 @@ class GameController extends Controller
         return $games;
     }
 
-    public function getLatestGamesAction($quantity)
-    {
+    public function getLatestGamesAction($quantity) {
         /**
          * @var EntityManager $em
          */

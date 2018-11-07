@@ -130,12 +130,12 @@ class UserController extends Controller
      * @Route("user/dashboard", name="user_dashboard")
      * @Method({"GET", "POST"})
      */
-    public function showDashboard()
+    public function showGraphs()
     {
         $userGames = $this->getUserGamesForGraph();
         $totalGames = $userGames[0];
         $totalGameplays = $userGames[1];
-        return $this->render('user/dashboard.html.twig', array(
+        return $this->render('user/graphs.html.twig', array(
             'games' => $totalGames,
             'gameplays' => $totalGameplays,
         ));
