@@ -490,7 +490,7 @@ class AdminController extends Controller
                     $game->setName($thing->getName());
                     $game->setNoOfPlayers($thing->getMinPlayers() . "-" . $thing->getMaxPlayers());
                     $game->setPlaytime($thing->getPlayingTime());
-                    $game->setImage($thing->getImage());
+//                    $game->setImage($thing->getImage());
                     $game->setIsExpansion($thing->isBoardgameExpansion());
 
                     //Initiate database manager

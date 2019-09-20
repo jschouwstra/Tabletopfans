@@ -86,7 +86,7 @@ class Game {
     /**
      * @ORM\Column(name="is_favorite",nullable=false, type="integer", options={"unsigned": true, "default" :0})
      */
-    private $isFavorite;
+    private $isFavorite = 0;
 
 
     /****************************************
