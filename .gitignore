@@ -4,5 +4,6 @@ var/
 app/config/parameters.yml
 composer.lock
 bin/
+*.sql
 
 
